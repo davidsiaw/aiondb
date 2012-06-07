@@ -21,13 +21,15 @@ namespace AionDBGenerator.Tools {
 			public string type;
 			public HashSet<string> examples;
 		}
-		public static void WriteItemsCS(AionData data) {
+		public static void MakeFileWithStructForBXML(AionData data, string pak, string file, string outputfile) {
 
 			Dictionary<string, DataType> itemAttrs = new Dictionary<string, DataType>();
 
+			HashSet<string> tradeInItems = new HashSet<string>();
+
 			Regex enumtype = new Regex("^[a-z][0-9a-z_]*(, [a-z][0-9a-z_]*)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-			var itemsxml = data.ReadXMLFile(@"Data\Items\Items.pak", "client_items.xml");
+			var itemsxml = data.ReadXMLFile(pak, file);
 			foreach (var node in itemsxml.Root.Children) {
 
 				foreach (var itemattr in node.Children) {
@@ -42,8 +44,18 @@ namespace AionDBGenerator.Tools {
 					} else if (itemattr.Value != null && enumtype.Match(itemattr.Value).Success) {
 						dt.type = "enum";
 					} else {
+						if (itemattr.Name == "trade_in_item_list") {
+
+							List<KeyValuePair<string, int>> itemAndCount = new List<KeyValuePair<string, int>>();
+							foreach (var tradeinitem in itemattr.Children) {
+								itemAndCount.Add(new KeyValuePair<string,int>( tradeinitem.Children[0].Value, int.Parse(tradeinitem.Children[1].Value)));
+							}
+							tradeInItems.Add(string.Join(", ", itemAndCount.Select(x => x.Key + " " + x.Value)));
+						}
+
 						dt.type = "string";
 					}
+
 					if (!itemAttrs.ContainsKey(itemattr.Name)) {
 						itemAttrs[itemattr.Name] = dt;
 					} else {
@@ -64,7 +76,7 @@ namespace AionDBGenerator.Tools {
 				}
 			}
 
-			using (StreamWriter sw = new StreamWriter(@"itemsAnalysis.cs")) {
+			using (StreamWriter sw = new StreamWriter(outputfile)) {
 				foreach (var attr in itemAttrs) {
 					if (attr.Value.type == "enum"
 
