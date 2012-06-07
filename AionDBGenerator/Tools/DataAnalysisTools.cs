@@ -103,6 +103,7 @@ namespace AionDBGenerator.Tools {
 
 					if (attr.Value.type == "enum") {
 						sw.WriteLine("enum {0} {{", "enum_" + attr.Key);
+						sw.WriteLine("\t@unknown,");
 						foreach (var example in attr.Value.examples) {
 							sw.WriteLine("\t@{0},", example);
 						}

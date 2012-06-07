@@ -32,7 +32,7 @@ namespace AionDBGenerator {
 
 			AionData data = new AionData(@"C:\Downloads\aion");
 
-			//DataAnalysisTools.WriteItemsCS(data,@"Data\Items\Items.pak", "client_items.xml","itemsAnalysis.cs");
+			//DataAnalysisTools.MakeFileWithStructForBXML(data, @"Data\Items\Items.pak", "client_items.xml", "itemsAnalysis.cs");
 			//DataAnalysisTools.MakeFileWithStructForBXML(data, @"L10N\1_enu\data\data.pak", "strings/client_strings_item2.xml", "clientstring.cs");
 
 			using (SQLiteConnection conn = new SQLiteConnection("aion.sqlite")) {
@@ -50,6 +50,10 @@ namespace AionDBGenerator {
 					InsertBXMLData<ClientString>(conn, "stringtable", clientStringItem2);
 				}
 
+				conn.Index("stringtable", "name");
+				conn.Index("items", "name");
+
+				conn.Index("stringtable", "body");
 			}
 
 			return;
