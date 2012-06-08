@@ -41,6 +41,16 @@ namespace AionDBGenerator {
 			}
 		}
 
+		public string[] GetFiles(string pakFile) {
+			var itempak = OpenPAKFile(Path.Combine(aionPath, pakFile));
+			List<string> files = new List<string>();
+			using (ZipFile zFile = new ZipFile(itempak)) {
+				foreach (ZipEntry entry in zFile) {
+					files.Add(entry.Name);
+				}
+			}
+			return files.ToArray();
+		}
 
 		public Bitmap ReadDDSFile(string pakFile, string internalFile) {
 			string key = pakFile + "!" + internalFile;
@@ -48,7 +58,9 @@ namespace AionDBGenerator {
 			if (!imageCache.ContainsKey(key)) {
 				var itempak = OpenPAKFile(Path.Combine(aionPath, pakFile));
 				using (ZipFile zFile = new ZipFile(itempak)) {
-					var entry = zFile[internalFile];
+					int entrynum = zFile.FindEntry(internalFile, true);
+					if (entrynum == -1) { return null; }
+					var entry = zFile[entrynum];
 					var iconFile = zFile.GetInputStream(entry);
 					byte[] bytes = new byte[entry.Size];
 					iconFile.Read(bytes, 0, bytes.Length);

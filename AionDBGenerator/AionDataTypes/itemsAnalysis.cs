@@ -263,6 +263,16 @@ enum enum_category {
 	@skillboost_tailoring,
 	@skillboost_menuisier,
 	@harvest,
+	@carpet,
+	@curtain,
+	@chair,
+	@bed,
+	@table,
+	@decoration,
+	@book,
+	@npc,
+	@light,
+	@outlight,
 }
 enum enum_boost_str_desc {
 	@unknown,
@@ -684,6 +694,188 @@ enum enum_ride_data_name {
 	@pagati_002_world,
 	@whale_002_world,
 }
+enum enum_type {
+	@unknown,
+	@all,
+}
+enum enum_place_area {
+	@unknown,
+	@interior,
+	@exterior,
+	@all,
+}
+enum enum_place_location {
+	@unknown,
+	@floor,
+	@wall,
+	@stack,
+}
+enum enum_cursor_type {
+	@unknown,
+	@none,
+	@action,
+	@talk,
+}
+enum enum_housingobj_function {
+	@unknown,
+	@chair,
+	@storage,
+	@postbox,
+	@npctype,
+	@picture,
+	@usecount,
+	@jukebox,
+}
+enum enum_place_limit_tag {
+	@unknown,
+	@storage,
+	@walldeco_picture,
+	@flowerpot,
+	@juke_box,
+	@cookingtable,
+	@flowerpot_owner,
+	@flowerpot_visitor,
+}
+enum enum_npcname {
+	@unknown,
+	@housing_npc_l_merchant,
+	@housing_npc_d_merchant,
+	@housing_npc_l_warehouse,
+	@housing_npc_d_warehouse,
+	@housing_walnut_opener,
+	@housing_npc_event_l_merchant,
+	@housing_npc_event_l_warehouse,
+	@housing_walnut_opener_d,
+	@housing_npc_event_d_merchant,
+	@housing_npc_event_d_warehouse,
+}
+enum enum_fx_bone_name {
+	@unknown,
+	@fx_bone_01a,
+}
+enum enum_tooltip_type {
+	@unknown,
+	@flowerpot,
+	@dish,
+}
+enum enum_required_item {
+	@unknown,
+	@ownertree_coin_01,
+	@exchange_coin_leaf_01,
+	@od_n_c_50a,
+	@quest_3939d,
+	@world_event_coin_flower_01,
+}
+enum enum_reward_use {
+	@unknown,
+	@wrap_ownertree_odelra_01,
+	@wrap_ownertree_stigma_shard_01,
+	@wrap_ownertree_gath_01,
+	@wrap_ownertree_resurrect_01,
+	@wrap_ownertree_battery_01,
+	@wrap_ownertree_hp_potion_01,
+	@wrap_ownertree_mp_potion_01,
+	@wrap_ownertree_arrows_01,
+	@wrap_ownertree_triffids_01,
+	@wrap_ownertree_bottle_01,
+	@wrap_ownertree_partofdimension_01,
+	@wrap_ownertree_light_material_01,
+	@wrap_visitanttree_freindlight_catweapon,
+	@wrap_visitanttree_freindlight_mgstone,
+	@wrap_visitanttree_freindlight_strengthen,
+	@wrap_visitanttree_freindlight_holy,
+	@wrap_visitanttree_freindlight_restore,
+	@wrap_visitanttree_freindlight_herowing,
+	@wrap_ownertree_furniturematerial,
+	@event_birth_cakepiece_01,
+	@wrap_event_scroll_speed_run_50a,
+	@wrap_event_candy_box_03,
+	@wrap_visitanttree_freindlight_idyun,
+	@wrap_visitanttree_freindlight_mgstone_01,
+	@wrap_visitanttree_freindlight_holy_01,
+	@wrap_visitanttree_freindlight_restore_01,
+	@wrap_visitanttree_freindlight_dye_01,
+	@wrap_cash_ownertree_chocolate_enchant01_01,
+	@wrap_cash_ownertree_candy_enchant02_01,
+	@event_birth_cakepiece_03,
+	@wrap_ownertree_dark_material_01,
+	@od_n_c_50a,
+	@od_n_r_50a,
+	@od_n_l_50a,
+	@coin_leaf_01,
+	@food_menuisier_master_60a,
+	@event_food_cake_01,
+	@wrap_visitanttree_freindlight_dye,
+	@wrap_ownertree_lowstrenthen,
+	@wrap_ownertree_elementalstone,
+	@world_wrap_event_com01a_hw_box_01,
+	@wrap_visitanttree_freindlight_idraksha,
+	@wrap_ownertree_treasure_04d_01,
+	@wrap_visitanttree_freindlight_lookchange_abyss_pl,
+	@wrap_visitanttree_freindlight_lookchange_abyss_ch,
+	@wrap_visitanttree_freindlight_lookchange_dragon_lt,
+	@wrap_visitanttree_freindlight_lookchange_dragon_rb,
+	@treasure_04d,
+	@wrap_ownertree_antiquity_ikon_01,
+	@food_menuisier_fighter_60a,
+	@food_menuisier_wizard_60a,
+	@food_menuisier_masterb_60a,
+	@wrap_visitanttree_freindlight_coin_copper,
+	@wrap_visitanttree_freindlight_coin_silver,
+	@wrap_visitanttree_freindlight_coin_gold,
+	@wrap_visitanttree_freindlight_coin_platinum,
+	@wrap_visitanttree_freindlight_coin_mithril,
+	@wrap_ownertree_treasure_01,
+	@wrap_ownertree_matter_enchant01_01,
+	@wrap_ownertree_matter_option_01,
+}
+enum enum_user_animation {
+	@unknown,
+	@harvest_plant,
+	@harvest_common,
+	@harvest_mealtable,
+	@harvest_mine,
+}
+enum enum_request_category {
+	@unknown,
+	@flowerpot,
+	@dish,
+}
+enum enum_reward_final {
+	@unknown,
+	@wrap_visitanttree_catweapon,
+	@wrap_visitanttree_mgstone,
+	@wrap_visitanttree_strengthen,
+	@wrap_visitanttree_holy,
+	@wrap_visitanttree_restore,
+	@wrap_visitanttree_herowing,
+	@wrap_birthcake_owner,
+	@wrap_event_fruitful_all,
+	@wrap_event_fristsnow_box_01,
+	@wrap_visitanttree_reward_kahrun_01,
+	@wrap_visitanttree_mgstone_01,
+	@wrap_visitanttree_holy_01,
+	@wrap_visitanttree_restore_01,
+	@wrap_visitanttree_dye_01,
+	@wrap_cash_ownertree_chocolate_enchant01_02,
+	@wrap_cash_ownertree_candy_enchant02_02,
+	@wrap_birthcake_owner_01a,
+	@od_n_u_50a,
+	@wrap_visitanttree_dye,
+	@world_wrap_event_com01a_hw_box_01,
+	@wrap_visitanttree_idraksha_shsglv,
+	@wrap_visitanttree_idyun_susglv,
+	@wrap_visitanttree_lookchange_abyss_pl,
+	@wrap_visitanttree_lookchange_abyss_ch,
+	@wrap_visitanttree_lookchange_dragon_lt,
+	@wrap_visitanttree_lookchange_dragon_rb,
+	@wrap_visitanttree_coin_copper,
+	@wrap_visitanttree_coin_silver,
+	@wrap_visitanttree_coin_gold,
+	@wrap_visitanttree_coin_platinum,
+	@wrap_visitanttree_coin_mithril,
+	@wrap_visitanttree_freindlight_mgstone,
+}
 struct Item {
 	public int id;
 	public string name;
@@ -921,4 +1113,32 @@ struct Item {
 	public string func_pet_name;
 	public int func_pet_dur_minute;
 	public enum_ride_data_name ride_data_name;
+	public enum_type type;
+	public enum_place_area place_area;
+	public enum_place_location place_location;
+	public double talking_distance;
+	public int housingobj_max_use_days;
+	public string dir;
+	public enum_cursor_type cursor_type;
+	public enum_housingobj_function housingobj_function;
+	public int in_house_warehouse_idx;
+	public enum_place_limit_tag place_limit_tag;
+	public double default_color;
+	public enum_npcname npcname;
+	public string fx_name;
+	public enum_fx_bone_name fx_bone_name;
+	public int housing_script_setpos;
+	public enum_tooltip_type tooltip_type;
+	public int pc_use_type;
+	public int owner_usecount_per_day;
+	public int pc_use_final_condition;
+	public enum_required_item required_item;
+	public int check_type;
+	public int erase_value;
+	public enum_reward_use reward_use;
+	public int use_cooltime;
+	public enum_user_animation user_animation;
+	public enum_request_category request_category;
+	public int pc_use_count_max;
+	public enum_reward_final reward_final;
 }

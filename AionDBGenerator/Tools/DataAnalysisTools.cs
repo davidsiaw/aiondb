@@ -12,6 +12,15 @@ namespace AionDBGenerator.Tools {
 	using System.Text.RegularExpressions;
 	using System.IO;
 
+	public class PakFile {
+		public PakFile(string pak, string file) {
+			this.pak = pak;
+			this.file = file;
+		}
+		public readonly string pak;
+		public readonly string file;
+	}
+
 	/// <summary>
 	/// TODO: Update summary.
 	/// </summary>
@@ -21,7 +30,8 @@ namespace AionDBGenerator.Tools {
 			public string type;
 			public HashSet<string> examples;
 		}
-		public static void MakeFileWithStructForBXML(AionData data, string pak, string file, string outputfile) {
+
+		public static void MakeFileWithStructForBXML(AionData data, string outputfile, params PakFile[] files) {
 
 			Dictionary<string, DataType> itemAttrs = new Dictionary<string, DataType>();
 
@@ -29,47 +39,49 @@ namespace AionDBGenerator.Tools {
 
 			Regex enumtype = new Regex("^[a-z][0-9a-z_]*(, [a-z][0-9a-z_]*)*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-			var itemsxml = data.ReadXMLFile(pak, file);
-			foreach (var node in itemsxml.Root.Children) {
+			foreach (var file in files) {
+				var itemsxml = data.ReadXMLFile(file.pak, file.file);
+				foreach (var node in itemsxml.Root.Children) {
 
-				foreach (var itemattr in node.Children) {
-					DataType dt = new DataType();
-					dt.examples = new HashSet<string>();
-					int a;
-					double b;
-					if (itemattr.Value != null && int.TryParse(itemattr.Value, out a)) {
-						dt.type = "int";
-					} else if (itemattr.Value != null && double.TryParse(itemattr.Value, out b)) {
-						dt.type = "double";
-					} else if (itemattr.Value != null && enumtype.Match(itemattr.Value).Success) {
-						dt.type = "enum";
-					} else {
-						if (itemattr.Name == "trade_in_item_list") {
+					foreach (var itemattr in node.Children) {
+						DataType dt = new DataType();
+						dt.examples = new HashSet<string>();
+						int a;
+						double b;
+						if (itemattr.Value != null && int.TryParse(itemattr.Value, out a)) {
+							dt.type = "int";
+						} else if (itemattr.Value != null && double.TryParse(itemattr.Value, out b)) {
+							dt.type = "double";
+						} else if (itemattr.Value != null && enumtype.Match(itemattr.Value).Success) {
+							dt.type = "enum";
+						} else {
+							if (itemattr.Name == "trade_in_item_list") {
 
-							List<KeyValuePair<string, int>> itemAndCount = new List<KeyValuePair<string, int>>();
-							foreach (var tradeinitem in itemattr.Children) {
-								itemAndCount.Add(new KeyValuePair<string,int>( tradeinitem.Children[0].Value, int.Parse(tradeinitem.Children[1].Value)));
+								List<KeyValuePair<string, int>> itemAndCount = new List<KeyValuePair<string, int>>();
+								foreach (var tradeinitem in itemattr.Children) {
+									itemAndCount.Add(new KeyValuePair<string, int>(tradeinitem.Children[0].Value, int.Parse(tradeinitem.Children[1].Value)));
+								}
+								tradeInItems.Add(string.Join(", ", itemAndCount.Select(x => x.Key + " " + x.Value)));
 							}
-							tradeInItems.Add(string.Join(", ", itemAndCount.Select(x => x.Key + " " + x.Value)));
-						}
 
-						dt.type = "string";
-					}
-
-					if (!itemAttrs.ContainsKey(itemattr.Name)) {
-						itemAttrs[itemattr.Name] = dt;
-					} else {
-						// fix bad preconception
-						if (dt.type != itemAttrs[itemattr.Name].type) {
 							dt.type = "string";
-							itemAttrs[itemattr.Name] = dt;
 						}
-					}
 
-					if (itemAttrs[itemattr.Name].type == "enum") {
-						if (enumtype.Match(itemattr.Value).Success) {
-							foreach (var str in itemattr.Value.Split(',')) {
-								itemAttrs[itemattr.Name].examples.Add(str.Trim().ToLowerInvariant());
+						if (!itemAttrs.ContainsKey(itemattr.Name)) {
+							itemAttrs[itemattr.Name] = dt;
+						} else {
+							// fix bad preconception
+							if (dt.type != itemAttrs[itemattr.Name].type) {
+								dt.type = "string";
+								itemAttrs[itemattr.Name] = dt;
+							}
+						}
+
+						if (itemAttrs[itemattr.Name].type == "enum") {
+							if (enumtype.Match(itemattr.Value).Success) {
+								foreach (var str in itemattr.Value.Split(',')) {
+									itemAttrs[itemattr.Name].examples.Add(str.Trim().ToLowerInvariant());
+								}
 							}
 						}
 					}

@@ -52,16 +52,17 @@
     <Compile Include="..\AionDBGenerator\AionDataTypes\itemsAnalysis.cs">
       <Link>AionDataTypes\itemsAnalysis.cs</Link>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="AionDB.cs" />
+    <Compile Include="ItemViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ItemViewer.Designer.cs">
+      <DependentUpon>ItemViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ItemViewer.resx">
+      <DependentUpon>ItemViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

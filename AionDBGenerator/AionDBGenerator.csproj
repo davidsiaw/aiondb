@@ -75,6 +75,7 @@
     <Compile Include="JitConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RBSPTree.cs" />
     <Compile Include="Tools\DataAnalysisTools.cs" />
     <EmbeddedResource Include="Items.resx">
       <DependentUpon>Items.cs</DependentUpon>
