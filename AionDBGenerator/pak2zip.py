@@ -12,6 +12,7 @@ stringFileHeader2 = "\xAF\xB4\xFC\xFB"
 structEndArchive = "<4s4H2lH"        # 9 items, end of archive, 22 bytes
 stringEndArchive = "PK\005\006"      # magic number for end of archive record
 stringEndArchive2 = "\xAF\xB4\xFA\xF9"
+
 structCentralDir = "<4s4B4HlLL5HLl"  # 19 items, central directory, 46 bytes
 stringCentralDir = "PK\001\002"      # magic number for central directory
 stringCentralDir2 = "\xAF\xB4\xFE\xFD"

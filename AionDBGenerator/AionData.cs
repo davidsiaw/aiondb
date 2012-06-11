@@ -24,6 +24,7 @@ namespace AionDBGenerator {
 	public class AionData {
 
 		Dictionary<string, Bitmap> imageCache = new Dictionary<string, Bitmap>();
+		
 
 		string aionPath;
 		public AionData(string aionPath) {

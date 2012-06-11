@@ -15,16 +15,10 @@ using AionDBGenerator.AionDataTypes;
 using System.Reflection;
 using System.Drawing;
 using System.Drawing.Imaging;
+using BlueBlocksLib.FileAccess;
 
 namespace AionDBGenerator {
 	static class Program {
-
-		[StructLayout(LayoutKind.Sequential)]
-		struct MyStudent {
-			public string name;
-			public int age;
-			public string moon;
-		}
 
 		struct Bmp {
 			public string name;
@@ -36,12 +30,12 @@ namespace AionDBGenerator {
 			}
 		}
 
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main() {
-
 			AionData data = new AionData(@"C:\Downloads\aion");
 
 			//DataAnalysisTools.MakeFileWithStructForBXML(data, "itemsAnalysis.cs",
