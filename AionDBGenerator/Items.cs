@@ -11,7 +11,6 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Diagnostics;
-using JitOpener;
 using System.Xml.Linq;
 
 namespace AionDBGenerator {

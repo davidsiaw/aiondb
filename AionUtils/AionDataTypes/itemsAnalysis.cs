@@ -1,4 +1,4 @@
-enum enum_item_type {
+public enum enum_item_type {
 	@unknown,
 	@normal,
 	@abyss,
@@ -6,7 +6,7 @@ enum enum_item_type {
 	@devanion,
 	@legend,
 }
-enum enum_material {
+public enum enum_material {
 	@unknown,
 	@mat_sword_s,
 	@mat_mace_s,
@@ -39,12 +39,12 @@ enum enum_material {
 	@mat_item_wood,
 	@mat_flesh,
 }
-enum enum_trail_tex {
+public enum enum_trail_tex {
 	@unknown,
 	@fxtrail_normal,
 	@fxtrail_boost,
 }
-enum enum_equip_bone {
+public enum enum_equip_bone {
 	@unknown,
 	@rhand_bone,
 	@lhand_bone,
@@ -53,13 +53,13 @@ enum enum_equip_bone {
 	@lback_bone,
 	@rhip_bone,
 }
-enum enum_attack_type {
+public enum enum_attack_type {
 	@unknown,
 	@physical,
 	@magical_fire,
 	@magical_water,
 }
-enum enum_quality {
+public enum enum_quality {
 	@unknown,
 	@common,
 	@rare,
@@ -69,18 +69,18 @@ enum enum_quality {
 	@mythic,
 	@junk,
 }
-enum enum_gender_permitted {
+public enum enum_gender_permitted {
 	@unknown,
 	@all,
 	@female,
 	@male,
 }
-enum enum_bonus_apply {
+public enum enum_bonus_apply {
 	@unknown,
 	@equip,
 	@inventory,
 }
-enum enum_abyss_item {
+public enum enum_abyss_item {
 	@unknown,
 	@medal_02,
 	@medal_01,
@@ -88,7 +88,7 @@ enum enum_abyss_item {
 	@medal_04,
 	@cash_coupon_aionjewels_01,
 }
-enum enum_extra_currency_item {
+public enum enum_extra_currency_item {
 	@unknown,
 	@coin_combineskill_01,
 	@coin_d_combineskill_01,
@@ -140,7 +140,7 @@ enum enum_extra_currency_item {
 	@junk_cbt_01a,
 	@world_event_coin_au_ccu_world_01,
 }
-enum enum_random_option_set {
+public enum enum_random_option_set {
 	@unknown,
 	@weapon_phyattack_60a,
 	@test_option_set_01,
@@ -167,13 +167,13 @@ enum enum_random_option_set {
 	@shield_hitaccuracy_60a,
 	@shield_magicalhitaccuracy_60a,
 }
-enum enum_ammo_bone {
+public enum enum_ammo_bone {
 	@unknown,
 	@lhand_bone,
 	@weaponbody,
 	@rhand_bone,
 }
-enum enum_armor_type {
+public enum enum_armor_type {
 	@unknown,
 	@clothes,
 	@robe,
@@ -182,22 +182,22 @@ enum enum_armor_type {
 	@plate,
 	@no_armor,
 }
-enum enum_stigma_type {
+public enum enum_stigma_type {
 	@unknown,
 	@enhanced1,
 }
-enum enum_gain_skill2 {
+public enum enum_gain_skill2 {
 	@unknown,
 	@p_boostaurarange_g1,
 	@fi_whirltornado_g1,
 	@ch_thruststrike_g1,
 }
-enum enum_tool_type {
+public enum enum_tool_type {
 	@unknown,
 	@inventory,
 	@field,
 }
-enum enum_motion_name {
+public enum enum_motion_name {
 	@unknown,
 	@convert,
 	@product,
@@ -231,7 +231,7 @@ enum enum_motion_name {
 	@areaatk,
 	@ride,
 }
-enum enum_combineskill {
+public enum enum_combineskill {
 	@unknown,
 	@convert,
 	@weaponsmith,
@@ -244,7 +244,7 @@ enum enum_combineskill {
 	@cooking,
 	@menuisier,
 }
-enum enum_category {
+public enum enum_category {
 	@unknown,
 	@cooking,
 	@armor_craft,
@@ -274,7 +274,7 @@ enum enum_category {
 	@light,
 	@outlight,
 }
-enum enum_boost_str_desc {
+public enum enum_boost_str_desc {
 	@unknown,
 	@str_tool_oven_boost_test_desc,
 	@str_tool_armor_craftline_booste_test_desc,
@@ -284,7 +284,7 @@ enum enum_boost_str_desc {
 	@str_tool_sewing_machine_boost_test_desc,
 	@str_tool_d_menuisier_boost_test_desc,
 }
-enum enum_boost_material {
+public enum enum_boost_material {
 	@unknown,
 	@co_boost_material_c_01a,
 	@as_boost_material_c_01a,
@@ -294,17 +294,17 @@ enum enum_boost_material {
 	@ta_boost_material_c_01a,
 	@me_boost_material_c_01a,
 }
-enum enum_activation_mode {
+public enum enum_activation_mode {
 	@unknown,
 	@both,
 	@combat,
 }
-enum enum_activate_target {
+public enum enum_activate_target {
 	@unknown,
 	@standalone,
 	@target,
 }
-enum enum_ownership_world {
+public enum enum_ownership_world {
 	@unknown,
 	@idelim,
 	@idstation,
@@ -322,7 +322,7 @@ enum enum_ownership_world {
 	@idarena,
 	@idarena_solo,
 }
-enum enum_activate_target_race {
+public enum enum_activate_target_race {
 	@unknown,
 	@gchief_light,
 	@ghenchman_light,
@@ -331,7 +331,7 @@ enum enum_activate_target_race {
 	@event_tower_light,
 	@event_tower_dark,
 }
-enum enum_return_alias {
+public enum enum_return_alias {
 	@unknown,
 	@lc1_return_area_1,
 	@lf1a_return_area_1,
@@ -354,12 +354,12 @@ enum enum_return_alias {
 	@ldf4a_return_area_1,
 	@ldf4b_return_area_1,
 }
-enum enum_sub_enchant_material_effect_type {
+public enum enum_sub_enchant_material_effect_type {
 	@unknown,
 	@probability,
 	@cash_option_prob,
 }
-enum enum_stat_enchant_type {
+public enum enum_stat_enchant_type {
 	@unknown,
 	@maxhp,
 	@maxmp,
@@ -375,7 +375,7 @@ enum enum_stat_enchant_type {
 	@magicalresist,
 	@healskillboost,
 }
-enum enum_proc_enchant_skill {
+public enum enum_proc_enchant_skill {
 	@unknown,
 	@item_skill_proc_stun,
 	@item_skill_proc_paralyze,
@@ -451,18 +451,18 @@ enum enum_proc_enchant_skill {
 	@item_skill_proc_poison_r2_50a,
 	@item_skill_proc_bleed_r2_50a,
 }
-enum enum_housing_change_size {
+public enum enum_housing_change_size {
 	@unknown,
 	@s,
 	@a,
 	@b,
 	@c,
 }
-enum enum_coupon_item {
+public enum enum_coupon_item {
 	@unknown,
 	@cash_coupon_aionjewels_01,
 }
-enum enum_doc_bg {
+public enum enum_doc_bg {
 	@unknown,
 	@doc_bg_official_light,
 	@doc_bg_parchment,
@@ -492,7 +492,7 @@ enum enum_doc_bg {
 	@doc_bg_q41222a,
 	@doc_bg_q41259a,
 }
-enum enum_toy_pet_name {
+public enum enum_toy_pet_name {
 	@unknown,
 	@bindstone_light_normal_test,
 	@bindstone_light_guild_test,
@@ -558,15 +558,15 @@ enum enum_toy_pet_name {
 	@birth_cake_kisk_l_party,
 	@birth_cake_kisk_d_party,
 }
-enum enum_difficulty {
+public enum enum_difficulty {
 	@unknown,
 	@normal,
 }
-enum enum_use_notice {
+public enum enum_use_notice {
 	@unknown,
 	@str_msgbox_disassemblebox_notice,
 }
-enum enum_assembly_item {
+public enum enum_assembly_item {
 	@unknown,
 	@coin_06,
 	@item_deco_achieve_atreia_c_01,
@@ -589,27 +589,27 @@ enum enum_assembly_item {
 	@world_wrap_event_hcoin202a_box_04,
 	@wrap_event_valen_white_heart_01,
 }
-enum enum_custom_idle_anim {
+public enum enum_custom_idle_anim {
 	@unknown,
 	@anim_ninja_idle,
 	@anim_hovering_idle,
 }
-enum enum_custom_run_anim {
+public enum enum_custom_run_anim {
 	@unknown,
 	@anim_ninja_run,
 	@anim_hovering_run,
 }
-enum enum_custom_jump_anim {
+public enum enum_custom_jump_anim {
 	@unknown,
 	@anim_ninja_jump,
 	@anim_hovering_jump,
 }
-enum enum_custom_rest_anim {
+public enum enum_custom_rest_anim {
 	@unknown,
 	@anim_ninja_rest,
 	@anim_hovering_rest,
 }
-enum enum_init_coolt_instance {
+public enum enum_init_coolt_instance {
 	@unknown,
 	@iddf3_dragon,
 	@idabre_low_divine,
@@ -652,7 +652,7 @@ enum enum_init_coolt_instance {
 	@idab1_dreadgion,
 	@iddreadgion_02,
 }
-enum enum_f2p_pack_name {
+public enum enum_f2p_pack_name {
 	@unknown,
 	@pack_1,
 	@pack_2,
@@ -667,7 +667,7 @@ enum enum_f2p_pack_name {
 	@pack_11,
 	@char_slot_8,
 }
-enum enum_ride_data_name {
+public enum enum_ride_data_name {
 	@unknown,
 	@cloud_001,
 	@cloud_002,
@@ -694,29 +694,29 @@ enum enum_ride_data_name {
 	@pagati_002_world,
 	@whale_002_world,
 }
-enum enum_type {
+public enum enum_type {
 	@unknown,
 	@all,
 }
-enum enum_place_area {
+public enum enum_place_area {
 	@unknown,
 	@interior,
 	@exterior,
 	@all,
 }
-enum enum_place_location {
+public enum enum_place_location {
 	@unknown,
 	@floor,
 	@wall,
 	@stack,
 }
-enum enum_cursor_type {
+public enum enum_cursor_type {
 	@unknown,
 	@none,
 	@action,
 	@talk,
 }
-enum enum_housingobj_function {
+public enum enum_housingobj_function {
 	@unknown,
 	@chair,
 	@storage,
@@ -726,7 +726,7 @@ enum enum_housingobj_function {
 	@usecount,
 	@jukebox,
 }
-enum enum_place_limit_tag {
+public enum enum_place_limit_tag {
 	@unknown,
 	@storage,
 	@walldeco_picture,
@@ -736,7 +736,7 @@ enum enum_place_limit_tag {
 	@flowerpot_owner,
 	@flowerpot_visitor,
 }
-enum enum_npcname {
+public enum enum_npcname {
 	@unknown,
 	@housing_npc_l_merchant,
 	@housing_npc_d_merchant,
@@ -749,16 +749,16 @@ enum enum_npcname {
 	@housing_npc_event_d_merchant,
 	@housing_npc_event_d_warehouse,
 }
-enum enum_fx_bone_name {
+public enum enum_fx_bone_name {
 	@unknown,
 	@fx_bone_01a,
 }
-enum enum_tooltip_type {
+public enum enum_tooltip_type {
 	@unknown,
 	@flowerpot,
 	@dish,
 }
-enum enum_required_item {
+public enum enum_required_item {
 	@unknown,
 	@ownertree_coin_01,
 	@exchange_coin_leaf_01,
@@ -766,7 +766,7 @@ enum enum_required_item {
 	@quest_3939d,
 	@world_event_coin_flower_01,
 }
-enum enum_reward_use {
+public enum enum_reward_use {
 	@unknown,
 	@wrap_ownertree_odelra_01,
 	@wrap_ownertree_stigma_shard_01,
@@ -829,19 +829,19 @@ enum enum_reward_use {
 	@wrap_ownertree_matter_enchant01_01,
 	@wrap_ownertree_matter_option_01,
 }
-enum enum_user_animation {
+public enum enum_user_animation {
 	@unknown,
 	@harvest_plant,
 	@harvest_common,
 	@harvest_mealtable,
 	@harvest_mine,
 }
-enum enum_request_category {
+public enum enum_request_category {
 	@unknown,
 	@flowerpot,
 	@dish,
 }
-enum enum_reward_final {
+public enum enum_reward_final {
 	@unknown,
 	@wrap_visitanttree_catweapon,
 	@wrap_visitanttree_mgstone,
@@ -876,7 +876,7 @@ enum enum_reward_final {
 	@wrap_visitanttree_coin_mithril,
 	@wrap_visitanttree_freindlight_mgstone,
 }
-struct Item {
+public struct Item {
 	public int id;
 	public string name;
 	public string desc;

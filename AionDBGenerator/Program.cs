@@ -10,12 +10,12 @@ using BlueBlocksLib.Database;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
-using AionDBGenerator.Tools;
-using AionDBGenerator.AionDataTypes;
 using System.Reflection;
 using System.Drawing;
 using System.Drawing.Imaging;
 using BlueBlocksLib.FileAccess;
+using AionUtils.AionDataTypes;
+using AionUtils;
 
 namespace AionDBGenerator {
 	static class Program {

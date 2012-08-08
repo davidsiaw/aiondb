@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="PAKFormat.cs" company="Microsoft">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace AionDBGenerator {
+﻿namespace AionUtils {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
@@ -16,8 +10,119 @@ namespace AionDBGenerator {
 	using Ionic.Zlib;
 	using Ionic.Crc;
 
-	// ported from pak2zip by roxfan
+	// ported from pak2zip python script by roxfan
 	public class PAKFile {
+
+		public static void DeserializePakToDir(string pakfile, string dir) {
+			PAKFile pak = new PAKFile(pakfile);
+			if (!Directory.Exists(dir)) {
+				Directory.CreateDirectory(dir);
+			}
+			foreach (var file in pak.Files) {
+				string fullpath = Path.Combine(dir, file);
+				string subDir = Path.GetDirectoryName(fullpath);
+				Console.WriteLine("Unpacking {0}", file);
+				if (!Directory.Exists(subDir)) {
+					Directory.CreateDirectory(subDir);
+				}
+				System.IO.File.WriteAllBytes(fullpath, pak[file]);
+			}
+		}
+
+		static string[] recursiveGetFiles(string dir, string prefix) {
+			List<string> files = new List<string>();
+			files.AddRange(Directory.GetFiles(dir).Select(x => prefix + Path.GetFileName(x)));
+
+			var dirs = Directory.GetDirectories(dir);
+			foreach (var subdir in dirs) {
+				var dirname = Path.GetFileName(subdir);
+				files.AddRange(recursiveGetFiles(subdir, prefix + dirname + "/"));
+			}
+
+			return files.ToArray();
+		}
+
+		public static void SerializeDirToPak(string dir, string pakfile) {
+			string[] allFiles = recursiveGetFiles(dir, "");
+
+			List<Dir> dirEntryList = new List<Dir>();
+
+			using (FormattedWriter fw = new FormattedWriter(pakfile)) {
+				// Write files
+				foreach (var file in allFiles) {
+					fw.Write(new Signature() { signature = stringFileHeader2 });
+					File f = new File();
+					byte[] bytes = System.IO.File.ReadAllBytes(Path.Combine(dir, file));
+					byte[] compressed = decryptBytesWithTable(ZlibCodecCompress(bytes), 0x3ff, 1, table2);
+					f.compressedSize = (uint)compressed.Length;
+					f.compressionMethod = 8;
+					CRC32 dataCheckSum = new CRC32();
+					f.crc = dataCheckSum.GetCrc32(new MemoryStream(bytes));
+					f.data = compressed;
+					f.extractSystem = 0;
+					f.extractVersion = 20;
+					f.extraField = new byte[0];
+					f.extraFieldLength = 0;
+					f.filename = Encoding.UTF8.GetBytes(file);
+					f.filenameLength = (ushort)f.filename.Length;
+					f.generalPurposeFlagBits = 0;
+					f.lastModDate = 0;
+					f.lastModTime = 0;
+					f.uncompressedSize = (uint)bytes.Length;
+					fw.Write(f);
+
+					Dir d = new Dir();
+					d.comment = new byte[0];
+					d.commentLength = 0;
+					d.compressedSize = f.compressedSize;
+					d.compressType = f.compressionMethod;
+					d.crc = f.crc;
+					d.createSystem = f.extractSystem;
+					d.createVersion = f.extractVersion;
+					d.date = f.lastModDate;
+					d.diskNumberStart = 0;
+					d.externalFileAttributes = 33;
+					d.extractSystem = f.extractSystem;
+					d.extractVersion = f.extractVersion;
+					d.extraField = new byte[0];
+					d.extraFieldLength = 0;
+					d.filename = f.filename;
+					d.filenameLength = f.filenameLength;
+					d.flagBits = f.generalPurposeFlagBits;
+					d.internalFileAttributes = 0;
+					d.localHeaderOffset = 0;
+					d.time = f.lastModTime;
+					d.uncompressedSize = f.uncompressedSize;
+
+					dirEntryList.Add(d);
+				}
+
+				var dirEntryListStartPos = fw.BaseStream.BaseStream.Position;
+				foreach (var d in dirEntryList) {
+					fw.Write(new Signature() { signature = stringCentralDir2 });
+					fw.Write(d);
+				}
+				var dirEntryListEndPos = fw.BaseStream.BaseStream.Position;
+
+				End e = new End();
+				e.byteSizeOfCentralDirectory = (uint)(dirEntryListEndPos - dirEntryListStartPos);
+				e.centralDirRecordsOnDisk = (short)dirEntryList.Count;
+				e.centralDirStartDisk = 0;
+				e.comment = new byte[0];
+				e.commentLength = 0;
+				e.diskNumber = 0;
+				e.offsetOfStartOfCentralDirectory = (uint)dirEntryListStartPos;
+				e.totalNumOfCentralDirRecords = (short)dirEntryList.Count;
+
+				fw.Write(new Signature() { signature = stringEndArchive2 });
+				fw.Write(e);
+			}
+
+		}
+
+		// a PAK file is merely a zip file with some things tampered with, like
+		// the first few bytes XOR'ed with a table and signatures that are not
+		// the same as the standard zip file signatures
 
 		[StructLayout(LayoutKind.Sequential)]
 		struct Signature {
@@ -106,12 +211,24 @@ namespace AionDBGenerator {
 
 		[StructLayout(LayoutKind.Sequential)]
 		struct End {
+			public short diskNumber;
+			public short centralDirStartDisk;
+			public short centralDirRecordsOnDisk;
+			public short totalNumOfCentralDirRecords;
+			public uint byteSizeOfCentralDirectory;
+			public uint offsetOfStartOfCentralDirectory;
+
+			public ushort commentLength;
+
+			[ArraySize("commentLength")]
+			public byte[] comment;
+
 		}
 
-		readonly byte[] stringFileHeader = { (byte)'P', (byte)'K', 3, 4 };
-		readonly byte[] stringFileHeader2 = { 0xaf, 0xb4, 0xfc, 0xfb };
-		readonly byte[] stringEndArchive2 = { 0xaF, 0xb4, 0xfa, 0xf9 };
-		readonly byte[] stringCentralDir2 = { 0xaF, 0xb4, 0xfe, 0xfd };
+		static readonly byte[] stringFileHeader = { (byte)'P', (byte)'K', 3, 4 };
+		static readonly byte[] stringFileHeader2 = { 0xaf, 0xb4, 0xfc, 0xfb };
+		static readonly byte[] stringEndArchive2 = { 0xaF, 0xb4, 0xfa, 0xf9 };
+		static readonly byte[] stringCentralDir2 = { 0xaF, 0xb4, 0xfe, 0xfd };
 
 		int detectVersion(byte[] data, uint uncompressedSize, int crc, ushort compressionMethod) {
 
@@ -122,7 +239,7 @@ namespace AionDBGenerator {
 			// version 2
 			if (compressionMethod == 8) {
 				try {
-					var bytes = ZlibCodecDecompress(convertBytesWithTable(data, 0x3ff, 1, table2));
+					var bytes = ZlibCodecDecompress(decryptBytesWithTable(data, 0x3ff, 1, table2));
 					CRC32 dataCheckSum = new CRC32();
 					int checkSum = dataCheckSum.GetCrc32(new MemoryStream(bytes));
 
@@ -130,12 +247,21 @@ namespace AionDBGenerator {
 						return 2;
 					}
 				} catch { }
+
+			} else {
+				var bytes = decryptBytesWithTable(data, 0x3ff, 1, table2);
+				CRC32 dataCheckSum = new CRC32();
+				int checkSum = dataCheckSum.GetCrc32(new MemoryStream(bytes));
+
+				if (bytes.Length == uncompressedSize && checkSum == crc) {
+					return 2;
+				}
 			}
 
 			//version 1
 			if (compressionMethod == 8) {
 				try {
-					var bytes = ZlibCodecDecompress(convertBytesWithTable(data, 0x1f, 32, table1));
+					var bytes = ZlibCodecDecompress(decryptBytesWithTable(data, 0x1f, 32, table1));
 
 					CRC32 dataCheckSum = new CRC32();
 					int checkSum = dataCheckSum.GetCrc32(new MemoryStream(bytes));
@@ -144,16 +270,26 @@ namespace AionDBGenerator {
 						return 1;
 					}
 				} catch { }
+
+			} else {
+				var bytes = decryptBytesWithTable(data, 0x1f, 32, table1);
+				CRC32 dataCheckSum = new CRC32();
+				int checkSum = dataCheckSum.GetCrc32(new MemoryStream(bytes));
+
+				if (bytes.Length == uncompressedSize && checkSum == crc) {
+					return 2;
+				}
 			}
+
 
 			return 0;
 		}
 
-		static byte[] convertBytesWithTable(byte[] data, int mask, int multiplier, byte[] table) {
+		static byte[] decryptBytesWithTable(byte[] data, int mask, int multiplier, byte[] table) {
 
 			byte[] converted = new byte[data.Length];
 			int csize = data.Length;
-
+			
 			int xorsize = 32;
 			if (xorsize > csize) { xorsize = csize; }
 
@@ -168,7 +304,47 @@ namespace AionDBGenerator {
 			return converted;
 		}
 
-		private byte[] ZlibCodecDecompress(byte[] compressed) {
+		private static byte[] ZlibCodecCompress(byte[] uncompressed) {
+			int outputSize = 2048;
+			byte[] output = new Byte[outputSize];
+			int lengthToCompress = uncompressed.Length;
+
+			// If you want a ZLIB stream, set this to true.  If you want
+			// a bare DEFLATE stream, set this to false.
+			bool wantRfc1950Header = false;
+
+			using (MemoryStream ms = new MemoryStream()) {
+				ZlibCodec compressor = new ZlibCodec();
+				compressor.InitializeDeflate(CompressionLevel.BestCompression, wantRfc1950Header);
+
+				compressor.InputBuffer = uncompressed;
+				compressor.AvailableBytesIn = lengthToCompress;
+				compressor.NextIn = 0;
+				compressor.OutputBuffer = output;
+
+				foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish }) {
+					int bytesToWrite = 0;
+					do {
+						compressor.AvailableBytesOut = outputSize;
+						compressor.NextOut = 0;
+						compressor.Deflate(f);
+
+						bytesToWrite = outputSize - compressor.AvailableBytesOut;
+						if (bytesToWrite > 0)
+							ms.Write(output, 0, bytesToWrite);
+					}
+					while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
+						   (f == FlushType.Finish && bytesToWrite != 0));
+				}
+
+				compressor.EndDeflate();
+
+				ms.Flush();
+				return ms.ToArray();
+			}
+		}
+
+		private static byte[] ZlibCodecDecompress(byte[] compressed) {
 
 			int outputSize = 2048;
 			byte[] output = new Byte[outputSize];
@@ -210,6 +386,12 @@ namespace AionDBGenerator {
 		int version = 0;
 		Dictionary<string, File> files = new Dictionary<string, File>();
 
+		public IEnumerable<string> Files {
+			get {
+				return files.Keys;
+			}
+		}
+
 		public PAKFile(string filename) {
 
 			FormattedReader pak = new FormattedReader(filename);
@@ -228,14 +410,18 @@ namespace AionDBGenerator {
 					}
 					files[header.Filename.ToLower()] = header;
 
-					Console.WriteLine(header.Filename);
+					Console.WriteLine("File: {0} Compression: {1}", header.Filename, header.compressionMethod);
 
 				} else if (ArrayUtils.AreEqual(sig.signature, stringCentralDir2)) {
 					var header = pak.Read<Dir>();
 
-					Console.WriteLine(header.Filename);
+					Console.WriteLine("Dir: {0}", header.Filename);
 
 				} else if (ArrayUtils.AreEqual(sig.signature, stringEndArchive2)) {
+					var header = pak.Read<End>();
+
+					Console.WriteLine("End disknumber {0}", header.diskNumber);
+
 					break;
 				} else {
 					throw new Exception("bad sig");
@@ -247,16 +433,24 @@ namespace AionDBGenerator {
 		public byte[] this[string filename] {
 			get {
 				if (version == 2) {
-					return ZlibCodecDecompress(convertBytesWithTable(files[filename.ToLower()].data, 0x3ff, 1, table2));
+					if (files[filename.ToLower()].compressionMethod == 0x8) {
+						return ZlibCodecDecompress(decryptBytesWithTable(files[filename.ToLower()].data, 0x3ff, 1, table2));
+					} else {
+						return decryptBytesWithTable(files[filename.ToLower()].data, 0x3ff, 1, table2);
+					}
 				} else {
-					return ZlibCodecDecompress(convertBytesWithTable(files[filename.ToLower()].data, 0x1f, 32, table1));
+					if (files[filename.ToLower()].compressionMethod == 0x8) {
+						return ZlibCodecDecompress(decryptBytesWithTable(files[filename.ToLower()].data, 0x1f, 32, table1));
+					} else {
+						return decryptBytesWithTable(files[filename.ToLower()].data, 0x1f, 32, table1);
+					}
 				}
 			}
 		}
 
 
 		// open beta
-		byte[] table1 = {
+		static byte[] table1 = {
       0x2f, 0x5d, 0x51, 0xf7, 0x01, 0xe9, 0xb4, 0x93, 0x4e, 0x51, 0x81, 0x3e, 0xaf, 0x3f, 0xdf, 0x99,
       0x80, 0x5e, 0x13, 0x83, 0x9b, 0x46, 0x57, 0xb5, 0x1b, 0x5c, 0xec, 0xb1, 0x29, 0x7c, 0xa9, 0x31,
       0x68, 0xe5, 0xda, 0xa7, 0xf6, 0x4f, 0xae, 0x16, 0x9a, 0x7f, 0x03, 0xcf, 0x1d, 0x5e, 0xd0, 0x51,
@@ -323,7 +517,7 @@ namespace AionDBGenerator {
       0xa0, 0xfa, 0xfe, 0x43, 0x70, 0xc3, 0x71, 0x46, 0x2e, 0xbe, 0x2e, 0x02, 0x17, 0xca, 0x78, 0xa0};
 
 		//closed beta
-		byte[] table2 = {
+		static byte[] table2 = {
       0x86, 0xFA, 0x1A, 0x1C, 0x07, 0xBD, 0xD8, 0x64, 0xCE, 0xEE, 0x59, 0x88, 0xCD, 0xA9, 0x1D, 0x06,
       0xF7, 0x3D, 0x31, 0x58, 0x83, 0xA1, 0x5C, 0x7E, 0xDF, 0xA6, 0x50, 0x9E, 0x89, 0xA8, 0x12, 0xD2,
       0x25, 0x49, 0x75, 0xE2, 0x07, 0x0F, 0xEB, 0x01, 0x97, 0x4A, 0x66, 0x35, 0xAB, 0x32, 0x9D, 0xA7,

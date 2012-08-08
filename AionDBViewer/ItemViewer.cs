@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace AionDBViewer {
 	public partial class ItemViewer : Form {
@@ -30,8 +31,21 @@ namespace AionDBViewer {
 
 		}
 
+		[StructLayout(LayoutKind.Sequential)]
+		struct ItemInfo {
+			public string icon_name;
+			public string name;
+			public int level;
+			public enum_item_type item_type;
+			public int price;
+			public int abyss_point;
+			public string race_permitted;
+			public int in_house_warehouse_idx;
+			public enum_quality quality;
+		}
+
 		private void textBox1_TextChanged(object sender, EventArgs e) {
-			var items = db.Search(textBox1.Text, 100);
+			var items = db.Search<ItemInfo>(textBox1.Text, 100);
 			dataGridView1.Rows.Clear();
 
 			foreach (var item in items) {

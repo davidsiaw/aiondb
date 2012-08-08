@@ -10,8 +10,8 @@ using Tao.OpenGl;
 using Tao.DevIl;
 using System.Drawing.Imaging;
 
-namespace JitOpener {
-	class JitConverter {
+namespace AionUtils {
+	public class JitConverter {
 
 		public static Bitmap DDSDataToBMP(byte[] DDSData) {
 			// Create a DevIL image "name" (which is actually a number)

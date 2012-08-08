@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0AE8F15E-0EB2-402A-94B1-56296E139810}</ProjectGuid>
+    <ProjectGuid>{24B9D35F-52A2-41B1-969D-B7B4B439D3F7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AionDBViewer</RootNamespace>
-    <AssemblyName>AionDBViewer</AssemblyName>
+    <RootNamespace>AionPAKViewer</RootNamespace>
+    <AssemblyName>AionPAKViewer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -46,17 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AionDB.cs" />
-    <Compile Include="ItemViewer.cs">
+    <Compile Include="FileList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ItemViewer.Designer.cs">
-      <DependentUpon>ItemViewer.cs</DependentUpon>
+    <Compile Include="FileList.Designer.cs">
+      <DependentUpon>FileList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PictureViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PictureViewer.Designer.cs">
+      <DependentUpon>PictureViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ItemViewer.resx">
-      <DependentUpon>ItemViewer.cs</DependentUpon>
+    <Compile Include="XMLViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XMLViewer.Designer.cs">
+      <DependentUpon>XMLViewer.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FileList.resx">
+      <DependentUpon>FileList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PictureViewer.resx">
+      <DependentUpon>PictureViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -67,6 +81,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="XMLViewer.resx">
+      <DependentUpon>XMLViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,18 +95,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\blueblocks\BlueBlocksLib\BlueBlocksLib.csproj">
-      <Project>{3E610D1E-838A-4EAB-80AE-CA4E78C2D83A}</Project>
-      <Name>BlueBlocksLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AionUtils\AionUtils.csproj">
       <Project>{BF81BC32-16FD-4B0A-9615-D10254306B6C}</Project>
       <Name>AionUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Debug\sqlite3.dll">
-      <Link>sqlite3.dll</Link>
+    <Content Include="..\AionDBGenerator\DevIL.dll">
+      <Link>DevIL.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

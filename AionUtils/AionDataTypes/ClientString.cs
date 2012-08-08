@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace AionDBGenerator.AionDataTypes {
+namespace AionUtils.AionDataTypes {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;

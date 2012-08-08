@@ -14,8 +14,8 @@ namespace AionDBGenerator {
 	using System.Diagnostics;
 	using System.Xml;
 	using ICSharpCode.SharpZipLib.Zip;
-	using JitOpener;
 	using System.Xml.Linq;
+	using AionUtils;
 
 	/// <summary>
 	/// TODO: Update summary.

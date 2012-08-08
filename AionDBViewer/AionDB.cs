@@ -10,8 +10,8 @@ namespace AionDBViewer {
 	using System.Linq;
 	using System.Text;
 	using BlueBlocksLib.Database;
-	using AionDBGenerator.AionDataTypes;
-using System.Drawing;
+	using System.Drawing;
+	using AionUtils.AionDataTypes;
 
 	/// <summary>
 	/// TODO: Update summary.
@@ -49,10 +49,10 @@ using System.Drawing;
 			return bmp;
 		}
 
-		public Item[] Search(string name, int limit) {
+		public T[] Search<T>(string name, int limit) where T : new() {
 
 			var res = conn.
-				Select<Item>("items").
+				Select<T>("items").
 				Join("stringtable", "name", "name").
 				WhereLike("body", name + "%").
 				Limit(limit).ToArray();
